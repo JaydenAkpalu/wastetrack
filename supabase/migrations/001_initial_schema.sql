@@ -2,6 +2,8 @@
 -- Run in Supabase SQL Editor. This file is a saved record of what's
 -- been run — running this file itself doesn't do anything automatically.
 
+
+-- Create drivers table
 create extension if not exists pgcrypto;  -- provides gen_random_uuid()
 
 create table if not exists public.drivers (
@@ -12,3 +14,13 @@ create table if not exists public.drivers (
   status text not null default 'active' check (status in ('active', 'inactive')),
   created_at timestamptz not null default now()
 );
+
+-- Create authorized zones table
+create table if not exists public.authorized_zones (
+  id uuid primary key default gen_random_uuid(),
+  name text not null unique,           -- e.g. "Achimota Transfer Station"
+  polygon jsonb not null,              -- GeoJSON polygon, [lng, lat] coordinate order
+  source text,                         -- citation, e.g. "AMA notice, 2026-03-01"
+  created_at timestamptz not null default now()
+);
+
