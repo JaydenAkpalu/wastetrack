@@ -24,3 +24,17 @@ create table if not exists public.authorized_zones (
   created_at timestamptz not null default now()
 );
 
+-- Create shifts table
+create table if not exists public.shifts (
+  id uuid primary key default gen_random_uuid(),
+  driver_id uuid not null references public.drivers(id) on delete restrict,
+  started_at timestamptz not null,
+  ended_at timestamptz,
+  status text not null default 'in_progress'
+    check (status in ('compliant', 'partial', 'flagged', 'in_progress')),
+  flag_reason text,
+  created_at timestamptz not null default now()
+);
+
+-- Create gps_pings table
+
