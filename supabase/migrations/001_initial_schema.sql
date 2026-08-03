@@ -92,3 +92,87 @@ create policy "public read zone_touches" on public.zone_touches
     for select using(true);
 
 
+-- =====================
+-- Realtime on gps_pings
+-- =====================
+alter publication supabase_realtime add table gps_pings;
+
+-- ===========================
+-- Seed authorized_zones table
+-- ===========================
+insert into public.authorized_zones (name, polygon, source) values
+
+(
+  'Achimota Transfer Station (ZoomPak)',
+  '{
+    "type": "Polygon",
+    "coordinates": [[
+      [-0.2292027, 5.6217017],
+      [-0.2273973, 5.6217017],
+      [-0.2273973, 5.6234983],
+      [-0.2292027, 5.6234983],
+      [-0.2292027, 5.6217017]
+    ]]
+  }'::jsonb,
+  'Zoomlion "ZoomPak" transfer station behind the New Achimota Lorry Station, opened 2017 (MyJoyOnline). Reconfirmed as one of six transfer stations reopened for tricycle drop-off under Presidential directive, 11 Jul 2026 (GBC Ghana Online). Coordinates from mapped facility location.'
+),
+
+(
+  'Teshie Transfer Station',
+  '{
+    "type": "Polygon",
+    "coordinates": [[
+      [-0.1055026, 5.5823017],
+      [-0.1036974, 5.5823017],
+      [-0.1036974, 5.5840983],
+      [-0.1055026, 5.5840983],
+      [-0.1055026, 5.5823017]
+    ]]
+  }'::jsonb,
+  'Zoomlion''s first waste transfer station, opened ~2015 (MyJoyOnline). One of six transfer stations reopened for tricycle drop-off under Presidential directive, 11 Jul 2026 (GBC Ghana Online). Coordinates are a neighborhood-level approximation (Teshie centroid) — exact facility footprint not independently verifiable via mapping search.'
+),
+
+(
+  'Kpone Transfer Station',
+  '{
+    "type": "Polygon",
+    "coordinates": [[
+      [0.0277972, 5.7022017],
+      [0.0296028, 5.7022017],
+      [0.0296028, 5.7039983],
+      [0.0277972, 5.7039983],
+      [0.0277972, 5.7022017]
+    ]]
+  }'::jsonb,
+  'Named as one of six transfer stations reopened for tricycle drop-off under Presidential directive, 11 Jul 2026 (GBC Ghana Online). Coordinates approximate the Kpone-Katamanso waste-facility locality. Note: the original Kpone engineered landfill operated 2013-2019 and was decommissioned 2019-2023 — the 2026-reopened facility is a separate Zoomlion transfer station in the same locality.'
+),
+
+(
+  'Ashaiman Transfer Station',
+  '{
+    "type": "Polygon",
+    "coordinates": [[
+      [-0.0497027, 5.6821017],
+      [-0.0478973, 5.6821017],
+      [-0.0478973, 5.6838983],
+      [-0.0497027, 5.6838983],
+      [-0.0497027, 5.6821017]
+    ]]
+  }'::jsonb,
+  'One of six transfer stations reopened for tricycle drop-off under Presidential directive, 11 Jul 2026 (GBC Ghana Online). Facility name/location confirmed via Google Places ("Zoomlion Transfer Station Ashaiman").'
+),
+
+(
+  'Pantang Transfer Station',
+  '{
+    "type": "Polygon",
+    "coordinates": [[
+      [-0.1965028, 5.7078017],
+      [-0.1946972, 5.7078017],
+      [-0.1946972, 5.7095983],
+      [-0.1965028, 5.7095983],
+      [-0.1965028, 5.7078017]
+    ]]
+  }'::jsonb,
+  'One of six transfer stations reopened for tricycle drop-off under Presidential directive, 11 Jul 2026 (GBC Ghana Online). Facility name/location confirmed via Google Places ("Zoomlion Transfer Station Pantang").'
+);
