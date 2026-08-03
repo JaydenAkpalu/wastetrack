@@ -2,8 +2,9 @@
 -- Run in Supabase SQL Editor. This file is a saved record of what's
 -- been run — running this file itself doesn't do anything automatically.
 
-
--- Create drivers table
+-- =============
+-- Drivers table
+-- =============
 create extension if not exists pgcrypto;  -- provides gen_random_uuid()
 
 create table if not exists public.drivers (
@@ -15,7 +16,9 @@ create table if not exists public.drivers (
   created_at timestamptz not null default now()
 );
 
--- Create authorized zones table
+-- =============================
+-- Authorized zones table
+-- =============================
 create table if not exists public.authorized_zones (
   id uuid primary key default gen_random_uuid(),
   name text not null unique,           -- e.g. "Achimota Transfer Station"
@@ -24,7 +27,9 @@ create table if not exists public.authorized_zones (
   created_at timestamptz not null default now()
 );
 
--- Create shifts table
+-- ===================
+-- Shifts table
+-- ===================
 create table if not exists public.shifts (
   id uuid primary key default gen_random_uuid(),
   driver_id uuid not null references public.drivers(id) on delete restrict,
@@ -36,7 +41,9 @@ create table if not exists public.shifts (
   created_at timestamptz not null default now()
 );
 
--- Create gps_pings table
+-- ===============
+-- Gps_pings table
+-- ===============
 create table if not exists public.gps_pings (
   id uuid primary key default gen_random_uuid(),
   shift_id uuid not null references public.shifts(id) on delete cascade,
@@ -49,7 +56,9 @@ create table if not exists public.gps_pings (
   created_at timestamptz not null default now()
 );
 
--- Create zone_touches table
+-- =========================
+-- Zone_touches table
+-- =========================
 create table if not exists public.zone_touches (
   id uuid primary key default gen_random_uuid(),
   shift_id uuid not null references public.shifts(id) on delete cascade,      -- meaningless without its shift, so it goes when the shift does
@@ -63,3 +72,23 @@ create table if not exists public.zone_touches (
   drop_off_classification text check (drop_off_classification in ('full', 'partial', 'none')),
   created_at timestamptz not null default now()
 );
+
+-- ============
+-- RLS POLICIES
+-- ============
+create policy "public read drivers" on public.drivers
+    for select using(true);
+
+create policy "public read authorized_zones" on public.authorized_zones
+    for select using(true);
+
+create policy "public read shifts" on public.shifts
+    for select using(true);
+
+create policy "public read gps_pings" on public.gps_pings
+    for select using(true);
+
+create policy "public read zone_touches" on public.zone_touches
+    for select using(true);
+
+
